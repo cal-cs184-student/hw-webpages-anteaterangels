@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="500.0px"
+   height="500.0px"
+   viewBox="0 0 500 500"
+   enable-background="new 0 0 500 500"
+   xml:space="preserve"
+   sodipodi:docname="my_robot.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   inkscape:export-filename="robot.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs27" /><sodipodi:namedview
+   id="namedview27"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="1.1221574"
+   inkscape:cx="266.00547"
+   inkscape:cy="292.29411"
+   inkscape:window-width="1104"
+   inkscape:window-height="663"
+   inkscape:window-x="84"
+   inkscape:window-y="65"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="g27"
+   showgrid="false" />
+
+<g
+   transform="translate(250 250)"
+   id="g27">
+	<!-- torso -->
+	<polygon
+   fill="#EF161F"
+   points="-50,-50 50,-50 -50,50 "
+   id="polygon1"
+   style="fill:#008000" />
+	<polygon
+   fill="#EF161F"
+   points="-50,50 50,-50 50,50"
+   id="polygon2"
+   style="fill:#008000" />
+
+	<!-- head -->
+	<g
+   transform="rotate(-44.461022,-122.335,-50)"
+   id="g6"
+   style="fill:#008000">
+		<g
+   transform="rotate(45)"
+   id="g5"
+   style="fill:#008000">
+			<g
+   transform="scale(0.5)"
+   id="g4"
+   style="fill:#008000">
+				<polygon
+   fill="#EF161F"
+   points="50,-50 -50,50 -50,-50 "
+   id="polygon3"
+   style="fill:#008000" />
+				<polygon
+   fill="#EF161F"
+   points="50,-50 50,50 -50,50 "
+   id="polygon4"
+   style="fill:#008000" />
+			</g>
+		</g>
+	</g>
+
+	<!-- left leg -->
+	<g
+   transform="translate(-40 90)"
+   id="g11"
+   style="fill:#008000">
+		<g
+   transform="scale(.2 .6)"
+   id="g7"
+   style="fill:#008000">
+			<polygon
+   fill="#EF161F"
+   points="-50,-50 50,-50 -50,50 "
+   id="polygon6"
+   style="fill:#008000" />
+			<polygon
+   fill="#EF161F"
+   points="-50,50 50,-50 50,50"
+   id="polygon7"
+   style="fill:#008000" />
+		</g>
+		<g
+   transform="translate(0 70)"
+   id="g10"
+   style="fill:#008000">
+			<g
+   transform="scale(.2 .6)"
+   id="g9"
+   style="fill:#008000">
+				<polygon
+   fill="#EF161F"
+   points="-50,-50 50,-50 -50,50 "
+   id="polygon8"
+   style="fill:#008000" />
+				<polygon
+   fill="#EF161F"
+   points="-50,50 50,-50 50,50"
+   id="polygon9"
+   style="fill:#008000" />
+			</g>
+		</g>
+	</g>
+
+	<!-- right leg -->
+	<g
+   transform="translate(40 90)"
+   id="g16"
+   style="fill:#008000">
+		<g
+   transform="scale(.2 .6)"
+   id="g12"
+   style="fill:#008000">
+			<polygon
+   fill="#EF161F"
+   points="-50,-50 50,-50 -50,50 "
+   id="polygon11"
+   style="fill:#008000" />
+			<polygon
+   fill="#EF161F"
+   points="-50,50 50,-50 50,50"
+   id="polygon12"
+   style="fill:#008000" />
+		</g>
+		<g
+   transform="translate(0 70)"
+   id="g15"
+   style="fill:#008000">
+			<g
+   transform="scale(.2 .6)"
+   id="g14"
+   style="fill:#008000">
+				<polygon
+   fill="#EF161F"
+   points="-50,-50 50,-50 -50,50 "
+   id="polygon13"
+   style="fill:#008000" />
+				<polygon
+   fill="#EF161F"
+   points="-50,50 50,-50 50,50"
+   id="polygon14"
+   style="fill:#008000" />
+			</g>
+		</g>
+	</g>
+
+	<g
+   transform="translate(-90 -40)"
+   id="g21"
+   style="fill:#008000">
+		<g
+   transform="matrix(0.45915332,0.38623597,-0.12874532,0.15305111,-8.2160562,22.530432)"
+   id="g17"
+   style="fill:#008000">
+			<polygon
+   fill="#EF161F"
+   points="50,-50 -50,50 -50,-50 "
+   id="polygon16"
+   style="fill:#008000" />
+			<polygon
+   fill="#EF161F"
+   points="50,-50 50,50 -50,50 "
+   id="polygon17"
+   style="fill:#008000" />
+		</g>
+		<g
+   transform="rotate(40.070269,0,-95.978544)"
+   id="g20"
+   style="fill:#008000">
+			<g
+   transform="scale(0.6,0.2)"
+   id="g19"
+   style="fill:#008000">
+				<polygon
+   fill="#EF161F"
+   points="50,-50 -50,50 -50,-50 "
+   id="polygon18"
+   style="fill:#008000" />
+				<polygon
+   fill="#EF161F"
+   points="50,-50 50,50 -50,50 "
+   id="polygon19"
+   style="fill:#008000" />
+			</g>
+		</g>
+	</g>
+
+
+	<g
+   transform="rotate(-30.148512,5.7440636,-187.07586)"
+   id="g26"
+   style="fill:#008000">
+		<g
+   transform="scale(0.6,0.2)"
+   id="g22"
+   style="fill:#008000">
+			<polygon
+   fill="#EF161F"
+   points="50,-50 -50,50 -50,-50 "
+   id="polygon21"
+   style="fill:#008000" />
+			<polygon
+   fill="#EF161F"
+   points="50,-50 50,50 -50,50 "
+   id="polygon22"
+   style="fill:#008000" />
+		</g>
+		<g
+   transform="translate(70)"
+   id="g25"
+   style="fill:#008000">
+			<g
+   transform="scale(0.6,0.2)"
+   id="g24"
+   style="fill:#008000">
+				<polygon
+   fill="#EF161F"
+   points="50,-50 -50,50 -50,-50 "
+   id="polygon23"
+   style="fill:#008000" />
+				<polygon
+   fill="#EF161F"
+   points="50,-50 50,50 -50,50 "
+   id="polygon24"
+   style="fill:#008000" />
+			</g>
+		</g>
+	</g>
+
+</g>
+
+
+</svg>

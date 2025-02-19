@@ -23,6 +23,19 @@
 			body {
 				font-family: 'Inter', sans-serif;
 			}
+
+			.figure-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				margin-top:20px;
+			}
+
+			.figure2 {
+				margin: 1px;
+				text-align: center;
+				width: 48%;
+			}
 		</style>
 	</head>
 	<body>
@@ -36,10 +49,10 @@
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw1-anteaterangels">https://github.com/cal-cs184-student/sp25-hw1-anteaterangels</a>
 
 		<figure>
-			<img src="lion.jpg" alt="Lion" style="width:50%"/>
+			<img src="images/image1.png" alt="Lion" style="width:50%"/>
 			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
@@ -51,54 +64,299 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To complete this task, we constructed a box-like structure that fit within the space of the triangle vertices that were being examined within our function. 
+		<b>
+			This basically made sure that our algorithm was at least as good as a function that checks all of the pixels within a bounding box.
+		</b>
+		To index through this structure, we found the maximum x-values and y-values from the points of the triangle A, B, C given within the rasterized-triangle function.
+		After doing this, we would have a way to iterate through all possible points that could be within the triangle's proximity. The formula we did to complete this used
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<code>max(y), min(y), max(x), min(x)</code>
+		
+		<p>Then, we converted each pixel into a center point by getting the indices and adding it by 0.5 each time. By doing so, we used the shoelace function to see which side the pixel was on. 
+		If the shoelace function returned a negative value for each edge, then it is in a counter-clockwise winding order triangle.
+		If it outputs a positive value for each edge, then it is in a clockwise winding order triangle. We can afterwards output the pixel with the corresponding color given from the function.</p>
+
+		<p>Here is the results of our rasterize function. After we sample the points in the triangle, we can then officially color these points.
+		</p>
+		<figure>
+			<img src="images/task2.png" alt="triangle" style="width:60%"/>
+			<figcaption>Triangles</figcaption>
+		</figure>
+		
+		<h2>Task 2: Antialiasing by Supersampling</h2>
+        <h3>Why is supersampling useful:</h3>
+                <p>Supersampling is useful since only using the edge functions to determine if a pixel is within a triangle leads to many edge cases that creates jaggies.</p>
+
+                <h3>What modifications did you make to your pipeline:</h3>
+                <ul>
+                    <li>In task 2 we implement antialiasing by supersampling.</li>
+                    <li>Here we first define a sampling rate N^2 and then we divide each pixel into N by N squares. We create a sample buffer that has the original size * N^2 size to hold the new colors.</li>
+                    <li>We then supersample. We do this in our rasterize triangle function by finding the square root sample rate and dividing each pixel into N^2 smaller pixels. The edgerizer function, functions the same way by checking if each subpixel is within a triangle. And filles the pixel with that color in the sample buffer.</li>
+                    <li>Lastly in our resolve_to_framebuffer function we sample the smaller subpixels and use their values to create the averages for each of the original pixels. By utilizing this technique, the boundaries of shapes will seem more accurate as they take into account the amount of color that is within a pixel.</li>
+                </ul>
+
+                <h3>Explain how you used supersampling to antialias your triangles:</h3>
+                <p>By supersampling the pixels we were able to average out the border crystals and get a better estimate for where the triangle would be. This reduced a lot of the stair-like structures at the borders and make it more clear as to where the original boundaries were as shown in the pictures below.</p>
+
+				<div style="display: flex; flex-direction: column; align-items: center;">
+					<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					  <tr>
+						<td style="text-align: center;">
+						  <img src="images/1pixelTriangles.png" width="400px"/>
+						  <figcaption>test4.svg, sample rate: 1</figcaption>
+						</td>
+						<td style="text-align: center;">
+						  <img src="images/4pixelTriangles.png" width="400px"/>
+						  <figcaption>test4.svg, sample rate: 4</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/16pixelTriangles.png" width="400px"/>
+							<figcaption>test4.svg, sample rate: 16</figcaption>
+						  </td>
+					  </tr>
+					  
+					</table>
+				</div>
+		<h2>Task 3: Transforms</h2>
+		We made cubeman do a celebration by raising his hands in happiness. The cubeman also changes color to show his excitement for the completion of task 3.
+		In this part, we altered groups g21 by rotating the left arm by 50 degrees and g26 by rotating the right arm by -50 degrees. Then we reverted the rotated 
+		head by rotating the head back to 90 degrees. As an example, here is some example code of the transformations we completed on the groups:
+		<br>
+		<br>
+		<p>1.
+		<code>g
+			transform="rotate(90)"
+			id="g5"</code>
+		</p>
+		<p>2.
+		<code>g
+			transform="translate(-90 -40) rotate(50)" 
+			id="g21"</code>
+		</p>
+		<p>3.
+			<code>g
+				transform="translate(90 -40) rotate(-50)"
+				id="g26"</code>
+			</p>
+			<div class="figure-container">
+				<figure class="figure2">
+					<img src="images/robot.png" alt="My Robot" style="width:100%"/>
+					<figcaption>Original Robot</figcaption>
+				</figure>
+			
+				<figure class="figure2">
+					<img src="images/robot_img.png" alt="My Robot" style="width:100%"/>
+					<figcaption>My Robot Celebrates</figcaption>
+				</figure>
+			</div>
+		
+		<h2>Task 4: Barycentric coordinates</h2>
+        Our previous calculations allow us to find the three triangles created by connecting the vertices of the triangles with the point within the triangle. Then we convert this to barycentric coordinated by dividing the area of these three different triangles and the overall triangle. This is the u,v,w that we see in the figure below. <br>
+	</br>
+                This is extremely useful to us since we now know how far the point is to each of the vertices. As shown below, the triangle is divided into 3 subtriangles, and the area of each of these triangles, allows us to know the relative distance a point is to that triangle. If a triangle created from edge AB and point P is larger, this means that point P is further from edge AB and vice versa.
+				<br></br>
+				<figure>
+					<img src="images/ray-triangle-barycentric.png" alt="triangle" style="width:50%"/>
+					<figcaption>Three color triangle, (“Ray-Tracing: Rendering a Triangle”)</figcaption>
+				</figure>
+				<br></br>
+				Using this information we can interpolate each pixel by assigning it different weights for each RGB value based on the weights of the triangles, in other words, for its barycentric coordinates. Once we have completed this, our triangle will look more like the following.<br>
+				</br>
+				This is extremely useful to us since we now know how far the point is to each of the vertices. As shown below, the triangle is divided into 3 subtriangles, and the area of each of these triangles, allows us to know the relative distance a point is to that triangle. If a triangle created from edge AB and point P is larger, this means that point P is further from edge AB and vice versa.
+				
+				<br></br>
+
+				<figure>
+					<img src="images/triangle_interpolated.png" alt="triangle" style="width:50%"/>
+					<figcaption>Interpolated triangle, (“Ray-Tracing: Rendering a Triangle”)</figcaption>
+				</figure>
+				<br></br>
+
+				<figure>
+					<img src="images/screenshot_2-17_21-31-23.png" alt="color wheel" style="width:50%"/>
+					<figcaption>svg/basic/test7.svg</figcaption>
+				</figure>
+
+				<br></br>
+
+		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
+		<p>Pixel sampling is the process of determining the color of a pixel by looking up values from a texture. In texture mapping, we take a 2D image (a texture) and apply it to a 3D surface. 
+		Since the texture coordinates don’t always align perfectly with screen pixels, we need a way to determine the best color to use—this is where pixel sampling comes in. </p>
+
+		<p>There are two common pixel sampling methods: nearest neighbor sampling and bilinear interpolation.</p>
+
+		<p>Nearest Neighbor Sampling: This method finds the texel (texture pixel) closest to the desired texture coordinate and uses its color directly by rounding down. 
+		It’s fast and simple but can result in a blocky or pixelated appearance, especially when textures are scaled up.</p>
+		<p>Bilinear Interpolation: Instead of using just one texel, bilinear sampling takes the four nearest texels surrounding the texture coordinate by taking the floor 
+		and ceiling and interpolates their colors based on their distances. This results in smoother transitions between texels, reducing blockiness but requiring more computation. </p>
+		For our implementation of texture mapping, we used these sampling methods to determine the color of each pixel when mapping the texture onto a surface. If using nearest neighbor, we directly picked the closest texel's color. If using bilinear interpolation, we computed a weighted average of the four nearest texels to achieve a smoother result.
+		
+		<br></br>
+
+		<div class="figure-container">
+			<figure class="figure2">
+				<img src="images/1pixelbilinear.png" alt="Sample Rate: 1px, Bilinear Interpolation" style="width:100%"/>
+				<figcaption>1 pixel bilinear</figcaption>
+			</figure>
+		
+			<figure class="figure2">
+				<img src="images/16pixelbilinear.png" alt="Sample Rate: 16px, Bilinear Interpolation" style="width:100%"/>
+				<figcaption>16 pixel bilinear</figcaption>
+			</figure>
+		
+			<figure class="figure2">
+				<img src="images/1pixelnearest.png" alt="Sample Rate: 1px, Nearest Neighbor Interpolation" style="width:100%"/>
+				<figcaption>1 pixel nearest</figcaption>
+			</figure>
+		
+			<figure class="figure2">
+				<img src="images/16pixelnearest.png" alt="Sample Rate: 16px, Nearest Neighbor Interpolation" style="width:100%"/>
+				<figcaption>16 pixel nearest</figcaption>
+			</figure>
+		</div>
+
+		<br></br>
+
+		Here are some more obvious examples where bilinear interpolation results in less grainy and smoother images.<br>
+		<br>
+
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="images/bilinearLogo.png" alt="Bilinear Logo" style="width:100%"/>
+					<figcaption>Bilinear Interpolated Logo</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="images/nearestLogo.png" alt="Nearest Logo" style="width:100%"/>
+					<figcaption>Nearest Neighbor Logo</figcaption>
 				</td>
 			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
+			  
 			</table>
 		</div>
-		
-		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+					<img src="images/bilinearLogo1.png" alt="Bilinear Logo" style="width:100%"/>
+			<figcaption>Bilinear Interpolated Logo</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/nearestLogo1.png" alt="Nearest Logo" style="width:100%"/>
+			<figcaption>Nearest Neighbor Logo</figcaption>
+				</td>
+			  </tr>
+			  
+			</table>
+		</div>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+					<img src="images/bilinearParrot.png" alt="Bilinear Parrot" style="width:100%"/>
+			<figcaption>Bilinear Interpolated Parrot</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/nearestParrot.png" alt="Nearest Parrot" style="width:100%"/>
+			<figcaption>Nearest Neighbor Parrot</figcaption>
+			  </tr>
+			  
+			</table>
+		</div>
 
-		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Comments: </h3>
+		<br>
+		Nearest Neighbor sampling generally seems more grainy while the bilinear sampling appears to be more smooth. <br>
+		Nearest Neighbor sampling, seems to perform well on less defined images, such as the map, however there are noticeable differences between bilinear sampling and nearest sampling on images with starker gradients  or more defined lines as with the logo or the parrot. 
+		<br>
 
-		<h2>Task 4: Barycentric coordinates</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Other renders:</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+					<img src="images/flatMap.png" alt="Nearest Parrot" style="width:100%"/>
+					<figcaption>Flat Map</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/wavyCampinile.png" alt="Nearest Parrot" style="width:100%"/>
+					<figcaption>Curvy Campinile</figcaption>
+			  </tr>
+			  
+			</table>
+		</div>
+	
 
 		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Level sampling is a technique that is used to create different resolutions of texture mapping. 
+		In order to render instantly, we first compute all of the different resolutions beforehand and store them in mipmaps.
+		Each mipmap is downsampled for smaller resolutions. Then we can render the correct mipmap based on our wanted resolution.
 
+		<h3>Comparison of Sampling Techniques</h3>
+		<ul>
+			<li>Pixel Sampling (Nearest vs. Bilinear Interpolation)</li>
+			<ul><li>
+				Speed: Nearest sampling is much faster than bilinear interpolation.
+				Memory Usage: Only a single texture is used, so it doesn’t require extra storage.
+				Antialiasing: Bilinear interpolation yields much smoother and more accurate images compared to nearest sampling.
+			</li></ul>
+			<li>Level Sampling (Mipmapping & Trilinear Filtering)</li>
+			<ul><li>
+				Speed: Sampling from mipmaps is faster than directly using a high-resolution texture to low-resolution generation
+				Memory Usage: Requires additional memory to store mipmaps.
+				Antialiasing Power: Reduces aliasing and shimmering effects when viewing textures from a distance. 
+			</li></ul>
+			<li>Number of Samples Per Pixel (Super-Sampling)</li>
+			<ul><li>
+				Speed: Increasing the number of samples per pixel greatly increases computation time since multiple texture lookups are required for a single pixel.
+				Memory Usage: Requires additional memory for storing multiple samples per pixel before averaging them.
+				Antialiasing Power: Provides the best antialiasing quality, reducing jagged edges and disconnected pixels as seen in svg/basic/test4.svg.
+			</li></ul>
+		</ul>
+
+		<h3>Our own png: Calcifer!</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+					<img src="images/l_zero+p_near.png" style="width:100%"/>
+					<figcaption>L Zero, P Nearest Calcifer</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/l_zero+p_bilinear.png" style="width:100%"/>
+					<figcaption>L Zero, P Bilinear Calcifer</figcaption>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center;">
+					<img src="images/l_near+p_near.png" style="width:100%"/>
+					<figcaption>L Nearest, P Nearest Calcifer</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/l_near+p_bilinear.png" style="width:100%"/>
+					<figcaption>L Nearest, P Bilinear Calcifer</figcaption>
+				</td>
+			  </tr>
+			  <td style="text-align: center;">
+				<img src="images/l_bilinear+p_near.png" style="width:100%"/>
+				<figcaption>L Linear, P Nearest Calcifer</figcaption>
+			</td>
+			<td style="text-align: center;">
+				<img src="images/l_bilinear+p_bilinear.png" style="width:100%"/>
+				<figcaption>L Linear, P Bilinear Calcifer</figcaption>
+			</td>
+		</tr>
+			</table>
+		</div>
 		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-		<h2>Additional Notes (please remove)</h2>
+		<h2>Citations</h2>
 		<ul>
+			<li>“Ray-Tracing: Rendering a Triangle.” Scratchapixel.com, 2024, www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/barycentric-coordinates.html. Accessed 18 Feb. 2025.</li>
 			<li>You can also add code if you'd like as so: <code>code code code</code></li>
 			<li>If you'd like to add math equations, 
 				<ul>
