@@ -1,5 +1,6 @@
 # CS184/284A Homework Webpage Repo
 
+empty
 The goal of this repo is to provide a template from which students can host CS184/284A homework writeups. 
 
 Feel free to be as creative as you want with this! As long as your writeup is easily readable to staff members who are grading, and can be printed into a readable PDF (for submission to Gradescope), we would be happy with it!
