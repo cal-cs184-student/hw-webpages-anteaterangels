@@ -28,15 +28,15 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Angela Rodriguez and Anthea Guo</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-anteaterangels/">Click here!</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw3-wegotthisteam">Our Repo!</a>
+	
 		<figure>
-			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
+			<img src="images/example_image.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
 			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
@@ -48,29 +48,62 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<b>What is ray generation?</b>
+		In the start we are given a point on an image sensor. We then have to translate it from the camera space (the image sensor) into the real world. This means a whole log of linear transformations.
+		 If you don't want to know the math you can skip this part, but in case you were curious:
+			<ul>
+				<li>We first converted degrees to radians using the formula \( \text{radians} = \text{degrees} \times \frac{\pi}{180} \).</li>
+				<li>We shifted the frame to move the center from the original to the real world. This involved translating (0,0) from the bottom-left corner to the center of the frame.</li>
+				<li>
+					We can represent the 3D vector as \( \mathbf{v} = (x, y, -1) \), where \( x \) and \( y \) are the coordinates on the image sensor, and \(-1\) is the z-coordinate of the camera sensor.
+				</li>
+				<li>Lastly we multiply these by the screen dimensions and normalize to get the unit vector.</li>
+			</ul>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+			<figure>
+				<img src="images/cam_space_to_ray_generation.png" alt="Ray generation from sensor detection" style="width:70%"/>
+				<figcaption>This image helped us understand this a lot</figcaption>
+			</figure>
+		<b>How did we create the primitive intersections?</b>
+			To understand how we created the pixel level intersections. It is great to first review Monte Carlo Integrations <a href="https://en.wikipedia.org/wiki/Monte_Carlo_integration">here</a>. 
+			But in short it integrates samples and averages them to approximate the area under the cuve.
+			<figure>
+				<img src="images/MC.png" alt="Ray generation from sensor detection" style="width:70%"/>
+				<figcaption>Monte Carlo Integration from scratchapixel.com</figcaption>
+			</figure>
+			Monte Carlo is a great way to estimate a area (in our case a pixel's color) given a limited number of sampling allowed to improve runtime of an algorithm. 
+			This means that we took a fixed amount of random samples from the image sensor within a pixel and then generated a ray and estimated its illuminance. 
+			We then integrated over all samples (it was just summing up all the illuminance to be honest) and divided by the number of samples we had to obtain a rough average over the entire pixel.
+			This feels familiar to supersampling except not every pixel is sampled since ray generation and illuminance estimation is much more costly than just retrieving a value of a pixel.
+
+			<b>How does triangle intersection work?</b>
+			The Möller–Trumbore algorithm is a fast and efficient method for detecting ray-triangle intersections in 3D space, commonly used in ray tracing.
+			This approach leverages barycentric coordinates and Cramer's rule to solve for the intersection point without explicitly computing the triangle’s normal. 
+			First, the algorithm calculates two edge vectors and uses the ray direction to determine whether the ray is parallel to the triangle’s plane. 
+			If not, it computes the intersection’s barycentric coordinates (u,v), which confirm whether the point lies inside the triangle. The final step determines the intersection distance t, ensuring it falls within the valid ray range. 
+			If an intersection is found, additional data such as the interpolated normal is stored for accurate shading. 
+
+		<p>Here are some of the simple renderings from small dae files to show that our primitive ray tracing and intersections work</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/CBempty.png" width="400px"/>
+				  <figcaption>Empty Cornell Box</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/CBspheres.png" width="400px"/>
+				  <figcaption>Cornell Box with Spheres</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/Cgems.png" width="400px"/>
+				  <figcaption>Cornell Box with Gems</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/banana.png" width="400px"/>
+				  <figcaption>Just a banana</figcaption>
 				</td>
 			  </tr>
 			</table>
