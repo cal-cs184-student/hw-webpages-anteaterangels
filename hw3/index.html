@@ -49,8 +49,8 @@
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		<b>What is ray generation?</b>
-		In the start we are given a point on an image sensor. We then have to translate it from the camera space (the image sensor) into the real world. This means a whole log of linear transformations.
-		 If you don't want to know the math you can skip this part, but in case you were curious:
+		<p>In the start we are given a point on an image sensor. We then have to translate it from the camera space (the image sensor) into the real world. This means a whole log of linear transformations.
+		 If you don't want to know the math you can skip this part, but in case you were curious:</p>
 			<ul>
 				<li>We first converted degrees to radians using the formula \( \text{radians} = \text{degrees} \times \frac{\pi}{180} \).</li>
 				<li>We shifted the frame to move the center from the original to the real world. This involved translating (0,0) from the bottom-left corner to the center of the frame.</li>
@@ -65,23 +65,25 @@
 				<figcaption>This image helped us understand this a lot</figcaption>
 			</figure>
 		<b>How did we create the primitive intersections?</b>
-			To understand how we created the pixel level intersections. It is great to first review Monte Carlo Integrations <a href="https://en.wikipedia.org/wiki/Monte_Carlo_integration">here</a>. 
-			But in short it integrates samples and averages them to approximate the area under the cuve.
+			<p>To understand how we created the pixel level intersections. It is great to first review Monte Carlo Integrations <a href="https://en.wikipedia.org/wiki/Monte_Carlo_integration">here</a>. 
+			But in short it integrates samples and averages them to approximate the area under the curve.</p>
 			<figure>
 				<img src="images/MC.png" alt="Ray generation from sensor detection" style="width:70%"/>
 				<figcaption>Monte Carlo Integration from scratchapixel.com</figcaption>
 			</figure>
-			Monte Carlo is a great way to estimate a area (in our case a pixel's color) given a limited number of sampling allowed to improve runtime of an algorithm. 
+			<p>Monte Carlo is a great way to estimate a area (in our case a pixel's color) given a limited number of sampling allowed to improve runtime of an algorithm. 
 			This means that we took a fixed amount of random samples from the image sensor within a pixel and then generated a ray and estimated its illuminance. 
 			We then integrated over all samples (it was just summing up all the illuminance to be honest) and divided by the number of samples we had to obtain a rough average over the entire pixel.
 			This feels familiar to supersampling except not every pixel is sampled since ray generation and illuminance estimation is much more costly than just retrieving a value of a pixel.
+		</p>
+			<br>
 
 			<b>How does triangle intersection work?</b>
-			The Möller–Trumbore algorithm is a fast and efficient method for detecting ray-triangle intersections in 3D space, commonly used in ray tracing.
+			<p>The Möller–Trumbore algorithm is a fast and efficient method for detecting ray-triangle intersections in 3D space, commonly used in ray tracing.
 			This approach leverages barycentric coordinates and Cramer's rule to solve for the intersection point without explicitly computing the triangle’s normal. 
 			First, the algorithm calculates two edge vectors and uses the ray direction to determine whether the ray is parallel to the triangle’s plane. 
 			If not, it computes the intersection’s barycentric coordinates (u,v), which confirm whether the point lies inside the triangle. The final step determines the intersection distance t, ensuring it falls within the valid ray range. 
-			If an intersection is found, additional data such as the interpolated normal is stored for accurate shading. 
+			If an intersection is found, additional data such as the interpolated normal is stored for accurate shading. </p>
 
 		<p>Here are some of the simple renderings from small dae files to show that our primitive ray tracing and intersections work</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -110,11 +112,194 @@
 		</div>
 		
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<b>How does our BVH construction algorithm work?</b>
+		<p>
+			Bounding Box Hiearchies are created by recursively splitting the scene up into left and right bounding boxes until each box has less than <i>max_leaf_size</i> number of primitives.
+			Then using our newly created box hiearchy, we can backtrace a ray along these boxes and check in a log n number of boxes by determining if it is on the right or the left of our center.
+			
+			Now comes the question of how did we choose our center?
+		</p>
 
+		<b>What heuristic was used?</b> <p>The heuristic was the midpoint of the axis with the longest extent. This would try to make sure that we were choosing an axis that would be able to narrow down the most amount of objects based on the assumption that they are sized evenly.
+			It may also be true that everything is on one side of an axis and this would lead to an infinite loop. This is because we would never be able to separate the objects since we would continue to choose all of them each time. 
+			In order to prevent this, our backup heuristic was just to take half of the objects on a given axis.
+		</p>
+		<b>BVH Acceleration on objects:</b>
+		<p>BVH Acceleration speeds up the time to render bigger models. Nothing took more than 0.1 seconds to render</p>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+			<figure style="text-align: center; flex: 1 1 calc(20% - 20px); max-width: calc(20% - 20px);">
+			<img src="images/dragon.png" alt="dragon" style="width:100%"/>
+			<figcaption>Dragon: 0.0672s!</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 calc(20% - 20px); max-width: calc(20% - 20px);">
+			<img src="images/blob.png" alt="blob" style="width:100%"/>
+			<figcaption>blob: 0.0774s!</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 calc(20% - 20px); max-width: calc(20% - 20px);">
+			<img src="images/CBlucy.png" alt="CBlucy" style="width:100%"/>
+			<figcaption>Cornell Boxed lucy: 0.0852s!</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 calc(20% - 20px); max-width: calc(20% - 20px);">
+			<img src="images/wall-e.png" alt="wall-e" style="width:100%"/>
+			<figcaption>wall-eee: 0.0717s!</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 calc(20% - 20px); max-width: calc(20% - 20px);">
+			<img src="images/cow.png" alt="cow" style="width:100%"/>
+			<figcaption>Cow: 0.0625s!</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 calc(20% - 20px); max-width: calc(20% - 20px);">
+			<img src="images/Ccoil.png" alt="CBcoil" style="width:100%"/>
+			<figcaption>Cornell Boxed coil: 0.0801s!</figcaption>
+			</figure>
+		</div>
+
+		<p>All of the above rendering times improved significantly, even this is an understatement. This is because we went from n to log n time for each of the path traces and with significant amounts of triangles this can be very significant improvement.
+			 For example with the cow: It went from 38.65s to 0.0625 seconds. This is a 618 fold improvement! Holy cow!</p>
+
+			<div style="display: flex; justify-content: center; gap: 20px;">
+				<figure style="text-align: center;">
+					<img src="images/cowNoAcel.png" alt="cow without acceleration" style="width:100%; max-width: 400px;"/>
+					<figcaption>Cow without acceleration: 38.65s</figcaption>
+				</figure>
+				<figure style="text-align: center;">
+					<img src="images/cowWithAcel.png" alt="cow with acceleration" style="width:100%; max-width: 400px;"/>
+					<figcaption>Cow with acceleration: 0.0625s</figcaption>
+				</figure>
+			</div>
 		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>Before we get into the nitty gritties of illumination we first have to understand the Bidirectional Reflection Distribution Function/p>
+		The Bidirectional Reflectance Distribution Function (BRDF) is a fancy way of describing how light bounces off a surface. 
+		Imagine shining a flashlight on a table—some of the light reflects into your eyes, some scatters in other directions. 
+		BRDF tells us how much light reflects in different directions depending on where the light comes from and the surface’s properties.
+		In my opinion, this equation should just be called snell's reflection law but it wasn't up to me.
 
+		It depends on two things:
+		<ul>
+			<li>
+				Incoming angle: <i>w_0</i>
+			</li>
+			<li>
+				Outgoing angle: <i>w_1</i>
+			</li>
+		</ul>
+		and the equation is given by: 
+		<figure>
+			<img src="images/brdf.png" alt="BRDF reflection" style="width:70%"/>
+			<figcaption>Visualization of BRDF reflection angles</figcaption>
+		</figure>
+		Swapping the reflected light variable to the left we obtain the function for reflected light which we will use later on.
+		<figure>
+			<img src="images/lightFunc.png" alt="Light reflection function" style="width:70%"/>
+			<figcaption>The reflected light function</figcaption>
+		</figure>
+		<p>Now that we've know how these functions work, let's move on to our two illumination methods:</p>
+		<p>In part 3 we implemented two different types of direct illumination:
+		</p>
+		<h3>1. Uniform Hemisphere Sampling</h3>
+		<p>
+			The first approach uses uniform hemisphere sampling to estimate direct lighting. This method works by:
+		</p>
+		<ul>
+			<li>Randomly sampling directions uniformly across the hemisphere above the surface point</li>
+			<li>Casting rays in these directions to check if they hit light sources</li>
+			<li>Accumulating the contribution of light sources hit by these rays</li>
+		</ul>
+		<p>
+			This method has the advantage of being simple to implement, but it can be inefficient because many sampled directions may not hit any light sources, especially when lights are small or far away.
+		</p>
+
+		<h3>2. Direct Sampling from Light Source</h3>
+		<p>
+			The second approach directly samples the light sources, which is more efficient:
+		</p>
+		<ul>
+			<li>For each light in the scene, generate sample points on the light</li>
+			<li>Cast rays from the surface point to these sample points</li>
+			<li>Check if the rays are blocked (shadow rays)</li>
+			<li>Accumulate the contribution of unblocked light samples</li>
+		</ul>
+		<p>
+			This method is more efficient, especially for scenes with small or distant lights, because it focuses samples where they matter most.
+
+			Below are some light sampling images rendered with different numbers of rays sampled.
+		</p>
+		<h4>Light Ray Sample Comparison</h4>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td>
+						<figure>
+							<img src="images/bunny_l1.png" width="400px" alt="Light sampling 1 ray"/>
+							<figcaption>Light sampling with 1 Ray</figcaption>
+						</figure>
+					</td>
+					<td>
+						<figure>
+							<img src="images/bunny_l4.png" width="400px" alt="Light sampling 4 rays"/>
+							<figcaption>Light sampling with 4 Rays</figcaption>
+						</figure>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<figure>
+							<img src="images/bunny_l16.png" width="400px" alt="Light sampling 16 rays"/>
+							<figcaption>Light sampling with 16 Rays</figcaption>
+						</figure>
+					</td>
+					<td>
+						<figure>
+							<img src="images/bunny_l64.png" width="400px" alt="Light sampling 64 rays"/>
+							<figcaption>Light sampling with 64 Rays</figcaption>
+						</figure>
+					</td>
+				</tr>
+			</table>
+		<b>Progressive Improvement:</b> As light ray count increases from 1 to 64, shadows become progressively smoother, with most improvement visible between 1-16 samples.
+
+		<div class="comparison-section">
+			<h3>Comparing Sampling Methods</h3>
+			<div class="image-grid">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td>
+							<figure>
+								<img src="images/task3bunnylowres.png" width="400px" alt="Uniform Hemisphere Low Res"/>
+								<figcaption>Uniform Hemisphere Sampling - Low Resolution</figcaption>
+							</figure>
+						</td>
+						<td>
+							<figure>
+								<img src="images/task4bunnylowres.png" width="400px" alt="Light Importance Low Res"/>
+								<figcaption>Light Importance Sampling - Low Resolution</figcaption>
+							</figure>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<figure>
+								<img src="images/task3bunnyhighres.png" width="400px" alt="Uniform Hemisphere High Res"/>
+								<figcaption>Uniform Hemisphere Sampling - High Resolution</figcaption>
+							</figure>
+						</td>
+						<td>
+							<figure>
+								<img src="images/task4bunnyhighres.png" width="400px" alt="Light Importance High Res"/>
+								<figcaption>Light Importance Sampling - High Resolution</figcaption>
+							</figure>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+
+			<h3>Analysis</h3>
+			<p>Comparing the two sampling methods reveals several key differences:
+			Firstly the noise levels of uniform hemisphere sampling produces noisier images when given the same sampling rates. This is due to the wasted samples on the non-light directions.
+			Secondly, the soft shadows appear grainier with hemisphere sampling but smoother with light sampling. 
+			Lastly, with the same number of rays, light sampling appears to render an image much closer to reality and thus we can approximate that light importance sampling achieves cleaner results with fewer samples.
+			All in all, light importance sampling proves to be superior for efficient path tracing and should be a prioritized method in ray calculations. 
+		</p>
+		
 		<h2>Part 4: Global Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
