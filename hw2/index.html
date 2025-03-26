@@ -32,28 +32,33 @@
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-anteaterangels/">Click Here!</a>
 
 		<br>
 		
-		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw2-uhhhh">https://github.com/cal-cs184-student/sp25-hw2-uhhhh</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw2-uhhhh">Github Repo!</a>
 
 		<figure>
-			<img src="images/teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<img src="images/sadcat.png" alt="Teapot" style="width:50%"/>
+
 		</figure>
 
 		<!--
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
 
-		<h2>Overview</h2>
+		<h1>Overview</h1>
 		Through this homework, we gained a deeper understanding of the power of parametric curves and surfaces in computer graphics, the importance of efficient data structures (like half-edge) for mesh manipulation, and how simple operations can be combined to create complex geometric transformations.
 
-		<h2>Section I: Bezier Curves and Surfaces</h2>
+		<h1>Section I: Bezier Curves and Surfaces</h1>
 
-		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		<p>To implement de Casteljau's algorithm for evaluating Bézier curves:</p> 
+
+		<h2>Part 1: Bezier curves with 1D de Casteljau subdivision</h2>
+		<p><b>De Casteljau algorithm:</b> a method used in graphics to evaluate points on a Bézier curve, 
+			it allows you to find a specific point on the curve based on a parameter value "t" by
+			repeatedly performing linear interpolation between control points that define the curve.
+		</p>
+		<p>To implement de Casteljau's algorithm for evaluating Bézier curves:</p>
 		<ol>
 			<li>Start with the control points of the curve.</li>
 			<li>For a given parameter t (0 ≤ t ≤ 1), perform linear interpolation between adjacent pairs of points.</li>
@@ -125,7 +130,7 @@
 		</div>
 		<br></br>
 		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;"></table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 				<td style="text-align: center;">
 				  <video width="400" controls>
 					<source src="images/bzc_video.mp4" type="video/mp4">
@@ -134,12 +139,17 @@
 				  <br>
 				  <figcaption>Bezier Curve Animation.</figcaption>
 				</td>
+
+                <td style="text-align: center;">
+                  <img src="images/bezier6.png" width="400px" alt="Bezier Curve with different t and control points"/>
+                  <figcaption>Bezier Curve with a different t and control point.</figcaption>
+                </td>
 			  </tr>
 			</table>
 		</div>
 			
 
-		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
+		<h2>Part 2: Bezier surfaces with separable 1D de Casteljau</h2>
 		<p> De Casteljau's algorithm extends to Bezier surfaces by applying the concept of separable 1D de Casteljau. 
 			First, you use the algorithm to draw four curves along one direction (let's call it u). 
 			These curves are based on the rows of your control point grid as shown in lecture. 
@@ -149,9 +159,14 @@
 			This gave me new points. 
 			Then I used these points as the control points for the evaluate step function in the perpendicular direction.</p>
 
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <img src="images/part2teapot.png" width="100%" alt="Teapot"/>
+                <figcaption>Teapot from bezier surfaces</figcaption>
+            </div>
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
-		<h3>Part 3: Area-weighted vertex normals</h3>
+
+		<h2>Part 3: Area-weighted vertex normals</h2>
 		<p>
 			Some intuition for this problem is that we want to compute the normal for each vertex by taking a weighted average of the normals of the faces that share the vertex. 
 			This is because at the vertex there exists discontinuities from the different normals of the adjacent faces as shown in the video screenshot below. 
@@ -186,7 +201,7 @@
 			  </tr>
 			</table>
 		  </div>
-		<h3>Part 4: Edge flip</h3>
+		<h2>Part 4: Edge flip</h2>
 		<p>We implemented the edge flip operation by first checking that the edge isn’t on the boundary, then using the provided diagram to reference and keep track of all the half-edges, vertices, edges, and faces involved, as shown in the code above. The process involved gathering the relevant half-edge pointers and then reassigning them with setNeighbors to update the connectivity between the two adjacent triangles. Along the way, we found that using commented-out alternative assignments was a helpful debugging trick, allowing us to test different configurations and ensure that every pointer was correctly updated, which ultimately made it easier to maintain a consistent and valid mesh structure after the flip.</p>
 		  <div style="display: flex; flex-direction: column; align-items: center;">
 			<img src="images/edge_flip_diagram.png" width="100%" alt="Edge Flip Diagram"/>
@@ -207,6 +222,7 @@
 			  </tr>
 			  
 			  <tr>
+				
 				<td style="text-align: center;" colspan="2">
 				  <img src="images/teapot_sideview.png" width="400px" alt="Side view of dented teapot"/>
 				  <figcaption>Side View of the Dented Teapot</figcaption>
@@ -214,7 +230,7 @@
 			  </tr>
 			</table>
 		  </div>
-		<h3>Part 5: Edge split</h3>
+		<h2>Part 5: Edge split</h2>
 		<p>We implemented the edge split operation by first checking if the edge is on the boundary, and if not, creating new half-edges, edges, and faces to insert a new vertex at the midpoint. We then updated the connectivity using setNeighbors to reassign the pointers for vertices, edges, and faces, following the logic shown in the code above. We also drew our own diagram to label the new edges, which made it easier to keep track of all the changes. It was a challenging debugging process, but we eventually found a missing half edge that resolved the issue and ensured the mesh structure remained consistent.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<img src="images/angela_slay.jpeg" width="100%" alt="Angela slays"/>
@@ -234,7 +250,10 @@
 				  <figcaption>Teapot with First Split</figcaption>
 				</td>
 			  </tr>
-		  
+		  </table>
+		  </div>
+		  <div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
 				  <img src="images/teapot_split2.png" width="400px" alt="Teapot with more splitting"/>
@@ -249,7 +268,7 @@
 		  </div>
 		  
 
-		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
+		<h2>Part 6: Loop subdivision for mesh upsampling</h2>
 		<p>For our loop subdivision problem, we initially focused on computing the new positions for all the verices in the input mesh via the Loop Division subrule
 			and later storing these positions within Vertex::newPosition. We also wanted to mark whether each vertex was new or from the original mesh.
 		</p>
@@ -322,7 +341,35 @@
 			<img src="images/good_cube.png" width="400px" alt="Good Cube" />
 			<figcaption>After three Loop Subdivision Cube</figcaption>
 		  </td>
-		  </table>
+		</table>
+		  </div>
+
+		  <div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/ico1.png" width="400px"
+				  <figcaption>Icosahedron Initial</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/ico2.png" width="400px"
+				  <figcaption>Icosahedron 1 Loop Subdivision</figcaption>
+				</td>
+			  </tr>
+		  
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/ico3.png" width="400px"
+				  <figcaption>Icosahedron 2 Loop Subdivision</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/ico4.png" width="400px"
+				  <figcaption>Icosahedron 3 Loop Subdivisionp</figcaption>
+				</td>
+				
+			  </tr>
+			</table>
 		  </div>
 		  <p>We noticed that, after the loop subdivision, there was a sort of smoothing effect due to the averaging of each of the vertex positions and an
 			increase in the number of faces and vertices overall due to the corresponding subdivision. However, each of the meshes still approximately maintained the 
@@ -333,12 +380,44 @@
 			and help preserve more of the sharpness that was present in the original mesh. This is implemented by ccreating additional vertices specifically positioned to maintain sharpness
 			during subdivision.
 		  </p>
+          
+          <div style="display: flex; flex-direction: column; align-items: center;">
+              <table style="width: 100%; text-align: center; border-collapse: collapse;">
+
+
+                <tr>
+                  <td style="text-align: center;">
+                    <img src="images/cube0.png" width="400px"
+                    <figcaption>Initial</figcaption>
+                  </td>
+                  <td style="text-align: center;">
+                    <img src="images/cube1.png" width="400px"
+                    <figcaption>Presplit Cube 1 Loop</figcaption>
+                  </td>
+                </tr>
+            
+                <tr>
+                  <td style="text-align: center;">
+                    <img src="images/cube2.png" width="400px"
+                    <figcaption>Presplit Cube 2 Loop</figcaption>
+                  </td>
+				  <td style="text-align: center;">
+                    <img src="images/cube3.png" width="400px"
+                    <figcaption>Presplit Cube 3 Loop</figcaption>
+                  </td>
+                  
+                </tr>
+              </table>
+            </div>
 
 		<p> Next, we focused on preprocessing our cube for symmetric subdivision. By identifying the sharp edges, we can split them and add new vertices along the midpoints of these new edges.
 			This allows for the sharp features to still be preserved while we are completing loop subdivision. We can check on neighbor vertices for their proximity and otherwise process normally.
 			While previously we had it so that sharp edges were processed with the similar effect of subdivision, now sharp edges have a type of subdivision which everything is symmetric and still
 			maintaining the original sharpness property.
 			</p>
+
+			Thanks for reading, this was definitely a fun and great learning experience that took way longer than expected (as expected from Hofstadter's Law)!
+
 
 		<h2>Citations</h2>
 		<ul>

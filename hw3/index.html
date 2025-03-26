@@ -36,8 +36,13 @@
 		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw3-wegotthisteam">Our Repo!</a>
 	
 		<figure>
+<<<<<<< HEAD
 			<img src="images/nostress.avif" alt="No Stress" style="width:70%"/>
 			<figcaption>As midterm season approached we both needed this cat. Hope you also have a chill day! </figcaption>
+=======
+			<img src="images/example_image.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
+			<figcaption>You can add images with captions!</figcaption>
+>>>>>>> a9c09340aa523cd7576354c9ae84307f5bd81ddb
 		</figure>
 
 		<!--
@@ -152,9 +157,162 @@
 			<figcaption>Cornell Boxed coil: 0.0801s!</figcaption>
 			</figure>
 		</div>
+<<<<<<< HEAD
 
 		<p>All of the above rendering times improved significantly, even this is an understatement. This is because we went from n to log n time for each of the path traces and with significant amounts of triangles this can be very significant improvement.
 			 For example with the cow: It went from 38.65s to 0.0625 seconds. This is a 618 fold improvement! Holy cow!</p>
+=======
+
+		<p>All of the above rendering times improved significantly, even this is an understatement. This is because we went from n to log n time for each of the path traces and with significant amounts of triangles this can be very significant improvement.
+			 For example with the cow: It went from 38.65s to 0.0625 seconds. This is a 618 fold improvement! Holy cow!</p>
+
+			<div style="display: flex; justify-content: center; gap: 20px;">
+				<figure style="text-align: center;">
+					<img src="images/cowNoAcel.png" alt="cow without acceleration" style="width:100%; max-width: 400px;"/>
+					<figcaption>Cow without acceleration: 38.65s</figcaption>
+				</figure>
+				<figure style="text-align: center;">
+					<img src="images/cowWithAcel.png" alt="cow with acceleration" style="width:100%; max-width: 400px;"/>
+					<figcaption>Cow with acceleration: 0.0625s</figcaption>
+				</figure>
+			</div>
+		<h2>Part 3: Direct Illumination</h2>
+		<p>Before we get into the nitty gritties of illumination we first have to understand the Bidirectional Reflection Distribution Function/p>
+		The Bidirectional Reflectance Distribution Function (BRDF) is a fancy way of describing how light bounces off a surface. 
+		Imagine shining a flashlight on a table—some of the light reflects into your eyes, some scatters in other directions. 
+		BRDF tells us how much light reflects in different directions depending on where the light comes from and the surface’s properties.
+		In my opinion, this equation should just be called snell's reflection law but it wasn't up to me.
+
+		It depends on two things:
+		<ul>
+			<li>
+				Incoming angle: <i>w_0</i>
+			</li>
+			<li>
+				Outgoing angle: <i>w_1</i>
+			</li>
+		</ul>
+		and the equation is given by: 
+		<figure>
+			<img src="images/brdf.png" alt="BRDF reflection" style="width:70%"/>
+			<figcaption>Visualization of BRDF reflection angles</figcaption>
+		</figure>
+		Swapping the reflected light variable to the left we obtain the function for reflected light which we will use later on.
+		<figure>
+			<img src="images/lightFunc.png" alt="Light reflection function" style="width:70%"/>
+			<figcaption>The reflected light function</figcaption>
+		</figure>
+		<p>Now that we've know how these functions work, let's move on to our two illumination methods:</p>
+		<p>In part 3 we implemented two different types of direct illumination:
+		</p>
+		<h3>1. Uniform Hemisphere Sampling</h3>
+		<p>
+			The first approach uses uniform hemisphere sampling to estimate direct lighting. This method works by:
+		</p>
+		<ul>
+			<li>Randomly sampling directions uniformly across the hemisphere above the surface point</li>
+			<li>Casting rays in these directions to check if they hit light sources</li>
+			<li>Accumulating the contribution of light sources hit by these rays</li>
+		</ul>
+		<p>
+			This method has the advantage of being simple to implement, but it can be inefficient because many sampled directions may not hit any light sources, especially when lights are small or far away.
+		</p>
+
+		<h3>2. Direct Sampling from Light Source</h3>
+		<p>
+			The second approach directly samples the light sources, which is more efficient:
+		</p>
+		<ul>
+			<li>For each light in the scene, generate sample points on the light</li>
+			<li>Cast rays from the surface point to these sample points</li>
+			<li>Check if the rays are blocked (shadow rays)</li>
+			<li>Accumulate the contribution of unblocked light samples</li>
+		</ul>
+		<p>
+			This method is more efficient, especially for scenes with small or distant lights, because it focuses samples where they matter most.
+
+			Below are some light sampling images rendered with different numbers of rays sampled.
+		</p>
+		<h4>Light Ray Sample Comparison</h4>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td>
+						<figure>
+							<img src="images/bunny_l1.png" width="400px" alt="Light sampling 1 ray"/>
+							<figcaption>Light sampling with 1 Ray</figcaption>
+						</figure>
+					</td>
+					<td>
+						<figure>
+							<img src="images/bunny_l4.png" width="400px" alt="Light sampling 4 rays"/>
+							<figcaption>Light sampling with 4 Rays</figcaption>
+						</figure>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<figure>
+							<img src="images/bunny_l16.png" width="400px" alt="Light sampling 16 rays"/>
+							<figcaption>Light sampling with 16 Rays</figcaption>
+						</figure>
+					</td>
+					<td>
+						<figure>
+							<img src="images/bunny_l64.png" width="400px" alt="Light sampling 64 rays"/>
+							<figcaption>Light sampling with 64 Rays</figcaption>
+						</figure>
+					</td>
+				</tr>
+			</table>
+		<b>Progressive Improvement:</b> As light ray count increases from 1 to 64, shadows become progressively smoother, with most improvement visible between 1-16 samples.
+
+		<div class="comparison-section">
+			<h3>Comparing Sampling Methods</h3>
+			<div class="image-grid">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td>
+							<figure>
+								<img src="images/task3bunnylowres.png" width="400px" alt="Uniform Hemisphere Low Res"/>
+								<figcaption>Uniform Hemisphere Sampling - Low Resolution</figcaption>
+							</figure>
+						</td>
+						<td>
+							<figure>
+								<img src="images/task4bunnylowres.png" width="400px" alt="Light Importance Low Res"/>
+								<figcaption>Light Importance Sampling - Low Resolution</figcaption>
+							</figure>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<figure>
+								<img src="images/task3bunnyhighres.png" width="400px" alt="Uniform Hemisphere High Res"/>
+								<figcaption>Uniform Hemisphere Sampling - High Resolution</figcaption>
+							</figure>
+						</td>
+						<td>
+							<figure>
+								<img src="images/task4bunnyhighres.png" width="400px" alt="Light Importance High Res"/>
+								<figcaption>Light Importance Sampling - High Resolution</figcaption>
+							</figure>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+
+			<h3>Analysis</h3>
+			<p>Comparing the two sampling methods reveals several key differences:
+			Firstly the noise levels of uniform hemisphere sampling produces noisier images when given the same sampling rates. This is due to the wasted samples on the non-light directions.
+			Secondly, the soft shadows appear grainier with hemisphere sampling but smoother with light sampling. 
+			Lastly, with the same number of rays, light sampling appears to render an image much closer to reality and thus we can approximate that light importance sampling achieves cleaner results with fewer samples.
+			All in all, light importance sampling proves to be superior for efficient path tracing and should be a prioritized method in ray calculations. 
+		</p>
+		
+		<h2>Part 4: Global Illumination</h2>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+>>>>>>> a9c09340aa523cd7576354c9ae84307f5bd81ddb
 
 			<div style="display: flex; justify-content: center; gap: 20px;">
 				<figure style="text-align: center;">
