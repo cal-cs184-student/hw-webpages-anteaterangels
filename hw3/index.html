@@ -32,12 +32,13 @@
 
 		<br>
 
-		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-anteaterangels/">Click here!</a>
-		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw3-wegotthisteam">Our Repo!</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-anteaterangels/hw3/index.html">https://cal-cs184-student.github.io/hw-webpages-anteaterangels/hw3/index.html</a>
+		<br>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw3-wegotthisteam">https://github.com/cal-cs184-student/sp25-hw3-wegotthisteam</a>
 	
 		<figure>
-			<img src="images/example_image.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<img src="images/nostress.avif" alt="No Stress" style="width:70%"/>
+			<figcaption>As midterm season approached we both needed this cat. Hope you also have a chill day! </figcaption>
 		</figure>
 
 		<!--
@@ -45,7 +46,9 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, we learned a lot more about how illuminance works within scene generation, the use of Monte Carlo Integration within illumination, 
+		and how different sampling techniques can increase efficiency when illuminating certain scenes! We found a lot of parts in this project interesting, but discovering the differences
+		between indirect and direct lighting's impacts on a scene was really nice to see put into practice.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		<b>What is ray generation?</b>
@@ -166,6 +169,10 @@
 					<figcaption>Cow with acceleration: 0.0625s</figcaption>
 				</figure>
 			</div>
+			<figure>
+				<img src="https://community.meraki.com/t5/image/serverpage/image-id/4425i6C1C79A148AA8011" alt="BVH visualization" style="width:50%"/>
+			</figure>
+		
 		<h2>Part 3: Direct Illumination</h2>
 		<p>Before we get into the nitty gritties of illumination we first have to understand the Bidirectional Reflection Distribution Function/p>
 		The Bidirectional Reflectance Distribution Function (BRDF) is a fancy way of describing how light bounces off a surface. 
@@ -263,28 +270,30 @@
 					<tr>
 						<td>
 							<figure>
-								<img src="images/task3bunnylowres.png" width="400px" alt="Uniform Hemisphere Low Res"/>
-								<figcaption>Uniform Hemisphere Sampling - Low Resolution</figcaption>
-							</figure>
-						</td>
-						<td>
-							<figure>
-								<img src="images/task4bunnylowres.png" width="400px" alt="Light Importance Low Res"/>
-								<figcaption>Light Importance Sampling - Low Resolution</figcaption>
-							</figure>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<figure>
 								<img src="images/task3bunnyhighres.png" width="400px" alt="Uniform Hemisphere High Res"/>
-								<figcaption>Uniform Hemisphere Sampling - High Resolution</figcaption>
+								<figcaption>Uniform Hemisphere Sampling Bunny</figcaption>
 							</figure>
 						</td>
 						<td>
 							<figure>
 								<img src="images/task4bunnyhighres.png" width="400px" alt="Light Importance High Res"/>
-								<figcaption>Light Importance Sampling - High Resolution</figcaption>
+								<figcaption>Light Importance Sampling Bunny</figcaption>
+							</figure>
+						</td>
+					</tr>
+				</table>
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td>
+							<figure>
+								<img src="images/CBlambertian_H_64_32.png" width="400px" alt="Uniform Hemisphere Spheres"/>
+								<figcaption>Uniform Hemisphere Sampling Spheres</figcaption>
+							</figure>
+						</td>
+						<td>
+							<figure>
+								<img src="images/CBlambertian_64_32.png" width="400px" alt="Light Importance Spheres"/>
+								<figcaption>Light Importance Sampling Spheres</figcaption>
 							</figure>
 						</td>
 					</tr>
@@ -301,24 +310,267 @@
 		</p>
 		
 		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny.png" alt="global illuminance 1" style="width:100%"/>
+				<figcaption>Global Illumination with Bunny</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/test_global.png" alt="global illuminance 3" style="width:100%"/>
+				<figcaption>Global Illumination with Banana</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/spheres_global.png" alt="global illuminance 2" style="width:100%"/>
+				<figcaption>Global Illumination with Spheres</figcaption>
+			</figure>
+		</div>
+		<p>
+			To implement the indirect lighting function, we needed to split our at_least_one_bounce_radiance function
+			into separate difference configurations for when we are accumulating bounces and when we aren't. Additionally,
+			for when we are at a max_depth_ray of 0, we needed to output only the light emission within the est_radiance_global_illumination()
+			function and otherwise sum the zero_bounce_radiance() with the at_least_one_bounce_radiance().
 
-		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			For our at_least_one_bounce_radiance() function more specifically, our implementation is as follows:
 
-		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<ul>
+				<li>We set L_out equal to one_bounce_radiance() for the given ray and intersection in the function so we can get the direct lighting source.</li>
+				<li>We want to terminate when our given ray's depth is less than or equal to one and then subsequently return our total light collected.</li>
+				<li>From our intersection point, we want to also create a new ray which generates this bouncing effect by taking a sample from the surface BSDF
+					using our isect.bdsf->sample_f() function. With the given outward radiance w_out, we get the sampled w_in and pdf of the probability density function
+					at w_in. Using this, we can generate our new ray using our hit point at the origin hit_p, the normalized product of w_in and o2w, and the offset
+					EPS_F with a decrementing depth by 1 for each recursive step.
+				</li>
+				<li>Our new ray must then be tested if it intersects our scene. If so, then we can calculate the bsdf, use the costheta angle, and recurse!</li>
+			  </ul>
+		</p>
+
+		<h3>Our Indirect Lighting Function Implementation w/ isAccumBounces</h3>
+
+		In our implementation of with isAccumBounces, we wanted to ensure that we accumulated each of the lightbounces from the max_ray_depth to 1. In order
+		to do so, we only wanted to do this when isAccumBounces was true. Otherwise, we only want to return the bounce when r.depth was equivalent to max_ray_depth
+		and ignore every other bounce.
+
+		<h3>Our Indirect Lighting Function Implementation w/ Russian Roulette</h3>
 		
-		<h2>Additional Notes (please remove)</h2>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/russian_roulette_slide.png" alt="RR Slide" style="width:100%"/>
+				<figcaption>Direct Illuminance</figcaption>
+			</figure>
+		</div>
+
+		So that our recursion does not occur indefinitely, we integrated the Russian Roulette termination from lecture into our function. We first
+		use a probabilistic value through the coin_flip() function in order to decide an unbiased estimate of how much light contribution should be inputted
+		within our scenes. By using this feature with max_ray_depth instead of isAccumBounces, we allow for a more realistic visualization of global illumination.
+
+		<h3>Direct vs. Indirect Illumination</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/spheres_global_direct.png" alt="direct illuminance" style="width:100%"/>
+				<figcaption>Direct Illuminance</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/spheres_indirect.png" alt="indirect illuminance" style="width:100%"/>
+				<figcaption>Indirect Illuminance</figcaption>
+			</figure>
+		</div>
+
+		<p>For direct illuminance, we notice that there is a stark contrast between each of the surfaces due to the light emission coming from the 
+			top lighting source in the ceiling. However, we notice in the indirect illuminance that we can see the illuminance and color bleeding 
+			occuring within each surface from the walls. Only seeing these difference do we notice how combining these two illumination values can we
+			have a more realistic form of illumination like global illuminance.
+
+			Therefore, the differences are when we are adding each accumulation and one_bounce_radiance() into our L_out.
+		</p>
+
+
+		<h3>Different mth Bounces of Light w/ isAccumBounces = false</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m0_non.png" alt="non-accum 0" style="width:100%"/>
+				<figcaption>m = 0</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m1_non.png" alt="non-accum 1" style="width:100%"/>
+				<figcaption>m = 1</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m2_non.png" alt="non-accum 2" style="width:100%"/>
+				<figcaption>m = 2</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m3_non.png" alt="non-accum 3" style="width:100%"/>
+				<figcaption>m = 3</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m4_non.png" alt="non-accum 4" style="width:100%"/>
+				<figcaption>m = 4</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m5_non.png" alt="non-accum 5" style="width:100%"/>
+				<figcaption>m = 5</figcaption>
+			</figure>
+		</div>
+
+		<p>From these images we can notice how, in m = 2, it is the first indication of when indirect illuminance
+			is prevalent. The light is now bounces across the different walls in order to gain light from the other surfaces
+			rather than any additional accumulating light. Furthermore, we notice how color bleeding occurs across the bunny and the other
+			floors and walls as a result of this effect.
+		</p>
+		<p>
+			When m = 3, the image starts to become darker as more light attempts to be accumulated from the current sources available.
+			Due to no additional accumulated light being carried, however, it becomes more difficult to find radiance, which is why we notice a darker
+			scene with shadowed areas.
+		</p>
+
+		<p>As the m begins to increase, we can see that the lighting becomes more even along the surface. Therefore, the effect seems to work but with less
+			light sources and more shadows existing within the scene. However, the lower m depths have a more distinct effect (m = 0 only has light emission, m = 1 has direct illumination).
+		</p>
+
+		<h3>Different mth Bounces of Light w/ isAccumBounces = true</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m0.png" alt="accum 0" style="width:100%"/>
+				<figcaption>m = 0</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m1.png" alt="accum 1" style="width:100%"/>
+				<figcaption>m = 1</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m2.png" alt="accum 2" style="width:100%"/>
+				<figcaption>m = 2</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m3.png" alt="accum 3" style="width:100%"/>
+				<figcaption>m = 3</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m4.png" alt="accum 4" style="width:100%"/>
+				<figcaption>m = 4</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m5.png" alt="accum 5" style="width:100%"/>
+				<figcaption>m = 5</figcaption>
+			</figure>
+		</div>
+
 		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
+			<li>m = 0: no drastic difference due to only measuring light emission.</li>
+			<li>m = 1: no drastic difference due to only measuring the direct illuminance of the scene with one_bounce_radiance().</li>
+			<li>Within m = 2 to m = 5 due we notice how the accumulated bounces allow for a more illuminated scene with realistic
+				lighting effects. When we remove accumulation, we see these lighting effects because the lighting becomes more spread out 
+				across the scene despite having less light for the image to be visible. Additionally, as bounces increase, we notice how 
+				there is more similarities to lower depths such as m = 4 and m = 5 for both when isAccumBounces is false and true. This shows how large amounts light bounces are not necessary 
+				to make a scene's illuminance look realistic.
 			</li>
-		</ul>
+		  </ul>
+
+		<h3>Different mth Bounces of Light w/ Russian Roulette</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m0._roulette.png" alt="accum 0" style="width:100%"/>
+				<figcaption>m = 0</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m1_roulette.png" alt="russian 1" style="width:100%"/>
+				<figcaption>m = 1</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m2_roulette.png" alt="accum 2" style="width:100%"/>
+				<figcaption>m = 2</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m3_roulette.png" alt="accum 3" style="width:100%"/>
+				<figcaption>m = 3</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m4_roulette.png" alt="accum 4" style="width:100%"/>
+				<figcaption>m = 4</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/CBbunny_m100_roulette.png" alt="accum 5" style="width:100%"/>
+				<figcaption>m = 5</figcaption>
+			</figure>
+		</div>
+
+
+		<h3>Different Sample per Pixel Rates</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s1_l4.png" alt="wall-e 1 sample" style="width:100%"/>
+				<figcaption>1 sample per pixel</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s2_l4.png" alt="wall-e 2 samples" style="width:100%"/>
+				<figcaption>2 samples per pixel</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s4_l4.png" alt="wall-e 4 samples" style="width:100%"/>
+				<figcaption>4 samples per pixel</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s8_l4.png" alt="wall-e 8 samples" style="width:100%"/>
+				<figcaption>8 samples per pixel</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s16_l4.png" alt="wall-e 16 samples" style="width:100%"/>
+				<figcaption>16 samples per pixel</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s64_l4.png" alt="wall-e 64 samples" style="width:100%"/>
+				<figcaption>64 samples per pixel</figcaption>
+			</figure>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/wall-e_s1024_l4.png" alt="wall-e 1024 samples" style="width:100%"/>
+				<figcaption>1024 samples per pixel</figcaption>
+			</figure>
+		</div>
+
+		<p>
+			These images represent how the sample per pixel rate affects the quality of the image that is outputted after rendering. With a lower sample per pixel rate,
+			the scene becomes more grainy and the shapes become less noticable due to this impact on the render. However, in the 1024 samples per pixel image, the 
+			scene becomes more smooth and high-quality in comparison. While the higher samples per pixel cause the render time to be more lengthy, it allows for a quality image
+			that more accurately represents the image being rendered. If you want a balance of having a smooth but also less costly render, having samples per pixel in-between these 
+			values such as 16 or 64 always for a slightly noisy but realistic image.
+		</p>
+		<h2>Part 5: Adaptive Sampling</h2>
+		<p>In our adaptive sampling implementation, we utilized the technique to adjust the number of samples
+			per pixel based on the variance values within our scene's illumination. To do so, we focused on getting
+			samples from more noisy areas with higher variance and stop otherwise. This allows for a higher 
+			efficiency with our scene generation.
+		</p>
+		<p>
+			To do so, we accumulated the illuminance in each iteration of our sample along with the squared illuminance. 
+			if we have reached a level in the samplesPerBatch value, we want to then calculate the mean, variance, and standard deviation
+			in order to calculate the convergence of the samples. If our I is less than maxTolerance * mean, then we break from our iteration
+			since the samples have already converged. We can then track the number of samples we did use in our scene more accurately and output 
+			our image. This allows for an increase in efficiency of our render and using less samples and ray accumulation than necessary in the 
+			build.
+		</p>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny.png" alt="global bunny" style="width:100%"/>
+				<figcaption>Bunny Scene</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny_rate.png" alt="rate bunny" style="width:100%"/>
+				<figcaption>Bunny Scene Light Map</figcaption>
+			</figure>
+		</div>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/test_global.png" alt="global banana" style="width:100%"/>
+				<figcaption>Banana Scene</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/test_global_rate.png" alt="rate banana" style="width:100%"/>
+				<figcaption>Banana Scene Light Map</figcaption>
+			</figure>
+		</div>
+	
 		</div>
 	</body>
 </html>
