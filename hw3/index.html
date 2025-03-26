@@ -46,7 +46,9 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, we learned a lot more about how illuminance works within scene generation, the use of Monte Carlo Integration within illumination, 
+		and how different sampling techniques can increase efficiency when illuminating certain scenes! We found a lot of parts in this project interesting, but discovering the differences
+		between indirect and direct lighting's impacts on a scene was really nice to see put into practice.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		<b>What is ray generation?</b>
@@ -535,7 +537,7 @@
 		<p>In our adaptive sampling implementation, we utilized the technique to adjust the number of samples
 			per pixel based on the variance values within our scene's illumination. To do so, we focused on getting
 			samples from more noisy areas with higher variance and stop otherwise. This allows for a higher 
-			effiency with our scene generation.
+			efficiency with our scene generation.
 		</p>
 		<p>
 			To do so, we accumulated the illuminance in each iteration of our sample along with the squared illuminance. 
