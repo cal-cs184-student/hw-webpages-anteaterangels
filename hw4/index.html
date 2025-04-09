@@ -32,78 +32,466 @@
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: (TODO) <a href="https://cal-cs184-student.github.io/hw-webpages-anteaterangels/">Home Page</a>
 
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: (TODO) <a href="https://github.com/cal-cs184-student/sp25-hw4-anteaterangels3">github repo</a>
 
 		<figure>
-			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<img src="images/blanket_hw.png" alt="Cloth draped over sphere" style="width:70%"/>
+			</figure>
+		<!--<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
-		<!--
+		
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		<p>
+			In this homework, we implemented a cloth simulation system that models the behavior of cloth using masses and springs. The simulation includes features such as numerical integration for realistic motion, collision handling with objects like spheres and planes, and self-collision detection using spatial hashing. Additionally, we explored the effects of varying parameters like spring constant, density, textures, and damping on the cloth's behavior.
+		</p>
 
 		<h2>Part 1: Masses and springs</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/pinned2_1.png" alt="2pin1" style="width:100%"/>
+				<figcaption>2-pin</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/pinned2_2.png" alt="2pin2" style="width:100%"/>
+				<figcaption>2-pin</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/pinned2_3.png" alt="2pin3" style="width:100%"/>
+				<figcaption>2-pin</figcaption>
+			</figure>
 		</div>
+
+		<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+			<img src="images/pinned2_noshear.png" alt="no shear" style="width:100%"/>
+			<figcaption>2-pin no shearing</figcaption>
+		</figure>
+		<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+			<img src="images/pinned2_allshear.png" alt="all shear" style="width:100%"/>
+			<figcaption>2-pin only shearing</figcaption>
+		</figure>
+		<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+			<img src="images/pinned2_1.png" alt="2pin1" style="width:100%"/>
+			<figcaption>2-pin all constraints</figcaption>
+		</figure>
+		
 
 		<h2>Part 2: Simulation via numerical integration</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
+		<h3>Spring Constant</h3>
+
+		<p>The spring constant appears to alter the stretchability of the cloth within the scene. For instance,
+		when the cloth is under low ks, we notice how the cloth appears to droop downward with less resistance
+		compared to other levels. We notice this in the default parameter of ks = 5000 when the cloth is more resolute
+		and does not go as low compared to it's smaller parameter. Finally, the cloth when ks = 50000 shows the cloth in 
+		a more rigid manner with it having a more flatter appearance with this configuration. With this in mind, changing 
+		the values for the spring constance can alter the appearance by making the cloth either saggy or not bendable. </p>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_ks_500.png" alt="ks500" style="width:100%"/>
+				<figcaption>ks = 500</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_ks_5000.png" alt="ks5000" style="width:100%"/>
+				<figcaption>ks = 5000</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_ks_50000.png" alt="ks50000" style="width:100%"/>
+				<figcaption>ks = 50,000</figcaption>
+			</figure>
+		</div>
+
+		<h3>Density</h3>
+
+		Changing the density parameter instead causes the cloth to have a higher mass within each point mass within the scene. This 
+		then causes the cloth to change in heaviness and number of folds folds from the weight compounded with falling. The low density parameter shows
+		this when it carries a smaller number of holds and not as much sagginess compared to the default density of 15. In contrast, the higher 
+		density value of 150 shows the cloth with more folds and a more droopy appearance due to the weight of the cloth. With this change in the density, we
+		can also see a similar effect as changing the spring constant parameter.
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_density_1.5.png" alt="density1.5" style="width:100%"/>
+				<figcaption>density = 1.5</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_density_15.png" alt="density15" style="width:100%"/>
+				<figcaption>density = 15</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_density_150.png" alt="density150" style="width:100%"/>
+				<figcaption>density = 150</figcaption>
+			</figure>
+		</div>
+
+		<h3>Dampness</h3>
+
+		<p>The dampening parameter appears to affect the bounciness and period at rest in which the cloth enters after falling from the pinned surface.
+			In the visual, a lower dampening value causes the cloth to carry more movement after landing, allowing more bounciness and causing the period at 
+			rest to take longer to be reached. In other words, within the visualizer, the cloth tends to swing for a longer period of time until it stabilizes.
+			On the other hand, the higher dampening value reaches rest at a faster rate and carries less movements before stabilizing.
+		</p>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_dampening_0.png" alt="dampening0" style="width:100%"/>
+				<figcaption>damping = 0.0%</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_dampening_0.2.png" alt="dampening0.2" style="width:100%"/>
+				<figcaption>damping = 0.2%</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/2pin_dampening_1.png" alt="dampening1" style="width:100%"/>
+				<figcaption>damping = 1.0%</figcaption>
+			</figure>
+		</div>
+
+		<h3>4-Pin Image</h3>
+
+		<figure>
+			<img src="images/4pin.png" alt="Cloth draped over sphere" style="width:70%"/>
+		</figure>
 
 		<h2>Part 3: Handling collisions with other objects</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
+		In our implementation for handling collisions, we needed to alter out approach depending on whether we were handling 
+		collisions for spheres or planes.
+
+		<h3>Sphere</h3>
+
+		<ol>
+			<li>For spheres, we needed to first calculate the vector distance between the current position of the point mass and the origin
+				of the sphere. By doing so, we could check for if the point mass intersects the sphere's surface via the vector distance's normal. We
+			did this check by seeing if the distance was less than the radius, since this let's us know if it is outside the bounds of the sphere.</li>
+			<li>To get the correction vector, the tangent point where the intersection between the sphere's surface and the point mass occurred. We
+				were able to find this by summing the origin with the normal distance times the radius of the sphere. What this essentially does is scale the 
+				tangent vector to the radius with the norm distance and the sphere's center. We can then use this tangent in order to get the difference between this 
+				intersection and the position that the point mass is in.
+			</li>
+			<li>After this, we use this correction vector to add the point mass's last position to the correction and scaling it down by (1 - friction).</li>
+		  </ol>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/sphere500.png" alt="dampening0" style="width:100%"/>
+				<figcaption>ks = 500</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/sphere5000.png" alt="dampening0.2" style="width:100%"/>
+				<figcaption>ks = 5000</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/sphere50000.png" alt="dampening1" style="width:100%"/>
+				<figcaption>ks = 50000</figcaption>
+			</figure>
+		</div>
+
+		After changing the values for the spring constant, we noticed that the lower spring constant of ks = 500 sphere carries more folds and a more longer, looser cloth that
+		stretches across the figure compared to the other spheres. In addition, there were more wrinkles with the cloth and striple-like patters on the cloth. In contrast, the 
+		ks = 50000 sphere has a drastic reduction in size and folds within the cloth compared to the other spheres. This shows that the default ks = 5000 value for the cloth is the more
+		ideal parameter value for the spring constant since it allows a balance between the two extremes and offers a more accurate visual of a cloth falling upon a sphere.
+
+
+		<h3>Plane</h3>
+
+		<ol>
+			<li>In a similar fashion, we get the distance from the point mass by getting the dot product of the plane's normal with the difference between 
+				the point mass's position and the plane's point. We do this dot product with the point mass's last position instead of using the current position of the point mass vector.
+				We can use these dot products in order to get their product and seeing if this product falls below 0. If so, then we know there has been a sign change and that it has crossed 
+				the plane.
+			</li>
+			<li>Once we know there has been an intersection, we then can get the tangent vector by finding the distance of the intersection from the last position. To find this value,
+				we divide the dot product of the last position with the difference of the last position dot product and the current position dot products that we had computed previously. By doing so, this lets us know 
+				the distance of the last position to the current intersection point that we have found. Using this value, we can use the last position, this double value, and the distance of the position to the last position
+				to find the tangent point. Afterwards, getting the correction vector becomes easy: we compute the difference of the tangent to the point mass's last position plus the plane's normal and scaled by the SURFACE_OFFSET of the plane.
+			</li>
+			<li>After this, we use this correction vector to add the point mass's last position to the correction and scaling it down by (1 - friction), similar to the process with sphere collisions.</li>
+		  </ol>
+
+		  <figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+			<img src="images/plane.png" alt="dampening0" style="width:100%"/>
+		</figure>
 
 		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<b>Implementation</b>
+		In order to handle self collisions we create a hashmap that stores 3d coordinates of the boxes that contain these position vectors. A naive approach would be too slow for real-time simulation therefore, we partitioned the 3D space into boxes and assigned point masses to these cells using a spatial hash function. 
+
+		The hash function maps each point mass to a specific grid cell and returns a float value. We made sure to make this number unique so that the boxes are evenly spread out.
+
+		Then we build the spatial map. We iterated over all of the point masses, called hash_position to get the box and then stored the point mass in the corresponding box. This map is rebuilt at each time step.
+
+		Lastly, self collide retrieves nearby candidates from the same spatial cell and tests if the candidate is within a distance of twice the thickness from itself. We then apply a repulsive force if they are too close (less than twice the thickness apart).
+
+		Finally, we modified simulate to call self_collide on each point mass at every time step.
+		<b>Self collision process</b>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.04.38 AM.png" alt="Self Collision Step 1" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 1</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.04.51 AM.png" alt="Self Collision Step 2" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 2</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.05.01 AM.png" alt="Self Collision Step 3" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 3</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.05.06 AM.png" alt="Self Collision Step 4" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 4</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.05.11 AM.png" alt="Self Collision Step 5" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 5</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.05.22 AM.png" alt="Self Collision Step 6" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 6</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.05.31 AM.png" alt="Self Collision Step 7" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 7</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<img src="images/Screenshot 2025-04-08 at 1.05.43 AM.png" alt="Self Collision Step 8" style="width: 100%; max-width: 300px;">
+				<figcaption>Step 8</figcaption>
+			</div>
+		</div>
+		<br>
+		<h3>Varying Density</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<video controls style="width: 100%; max-width: 300px;">
+					<source src="images/low.mp4" type="video/mp4">
+				</video>
+				<figcaption>Low Density 20g/m^3</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<video controls style="width: 100%; max-width: 300px;">
+					<source src="images/medium.mp4" type="video/mp4">
+				</video>
+				<figcaption>Medium Density 30g/m^3</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+				<video controls style="width: 100%; max-width: 300px;">
+					<source src="images/high.mp4" type="video/mp4">
+				</video>
+				<figcaption>High Density 35g/m^3</figcaption>
+			</div>
+		</div>
+		As the density of the cloth increases, its weight also increases, causing it to fall more rapidly and compress upon itself. For example, when comparing densities like 20g/m³ and 30g/m³, the heavier cloth (30g/m³) collapses more quickly and with greater force. However, as the density continues to rise, the cloth becomes so heavy that it no longer interacts properly with the plane—it starts to pass through it entirely. This phenomenon becomes even more pronounced at higher densities, such as 40g/m³ or 50g/m³, where the cloth's weight overwhelms the simulation's ability to handle the collision accurately. 
+
+		<h3>Varying ks</h3>
+		<video controls style="width: 100%; ">
+			<source src="images/ks.mp4" type="video/mp4">
+		</video>
+		<br>
+		As the ks value of the point masses increases, the cloth exhibits more elasticity, appearing bouncier and more jelly-like. 
+		This also prevents the cloth from falling through objects in the simulation. However, we observe that beyond a certain point, increasing the ks value further does not significantly change the behavior of the cloth. 
+		This is likely due to the implementation constraint that limits the stretching of the springs to a maximum of 10% of their original length, causing extremely high ks values to produce similar results.
 
 		<h2>Part 5: Shaders</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
+		<br>
+		<b>Shaders</b>
+		<p>
+		A shader program typically consists of two main parts:
 		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
+			<li>
+				1. Vertex Shader: This processes each vertex of a 3D object. It determines the position of the vertex on the screen and can also calculate properties like normals (used for lighting) or texture coordinates. The vertex shader is responsible for transforming 3D coordinates into 2D screen space and passing data to the next stage.
+			</li>
+			<li>
+				2. Fragment Shader: This processes each pixel (or fragment) of the object. It determines the final color of the pixel by applying lighting calculations, textures, and material properties. The fragment shader is where effects like shadows, reflections, and highlights are created.
 			</li>
 		</ul>
+		
+		
+		The vertex shader prepares the geometry, and the fragment shader handles the appearance of each pixel. 
+	</p>
+		<b>Blinn-Phong</b>
+		<p>The Blinn-Phong shading model is a way by combining ambient light, diffuse relection and specular reflection (the blinn part). 
+			<ul>
+				<li>
+					Ambient Light: This represents the general light in the environment.
+				</li>
+				<li>
+					Diffuse Reflection: This simulates how light scatters when it hits a rough surface. It depends on the angle between the light source and the surface's normal (perpendicular direction). The more directly the light hits the surface, the brighter it appears.
+				</li>
+				<li>
+					Specular Reflection: This models the shiny highlights you see on smooth surfaces. In Blinn-Phong, instead of calculating the reflection direction (as in Phong), it uses a geometric half vector between the light direction and the viewer's direction. 
+				</li>
+				<figure style="text-align: center;"></figure>
+					<img src="images/HalfangleVectorDiagram.svg" alt="Half-angle Vector Diagram" style="width:70%;"/>
+					<figcaption>Diagram illustrating the half-angle vector used in Blinn-Phong shading.</figcaption>
+				</figure>
+			</ul>
+		
+		
+		
+		This makes the calculation faster and still produces realistic highlights.
+
+		By combining these three components (ambient, diffuse, and specular), the Blinn-Phong model creates a balanced and visually appealing lighting effect for 3D objects. It’s widely used because it’s simple and efficient while still looking good.</p>
+		
+		Here are some images that show the different components.
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(25% - 10px);">
+				<img src="images/ambient.png" alt="Ambient Component" style="width: 100%; max-width: 300px;">
+				<figcaption>Ambient</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(25% - 10px);">
+				<img src="images/diffuse.png" alt="Diffuse Component" style="width: 100%; max-width: 300px;">
+				<figcaption>Diffuse</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(25% - 10px);">
+				<img src="images/specular.png" alt="Specular Component" style="width: 100%; max-width: 300px;">
+				<figcaption>Specular</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(25% - 10px);">
+				<img src="images/bp_mode.png" alt="Blinn-Phong Combined" style="width: 100%; max-width: 300px;">
+				<figcaption>Blinn-Phong</figcaption>
+			</div>
 		</div>
+
+		<h3>Custom Shader:</h3>
+			<p>We created a custom shader using a ripples. We did this by using a sin function and a time input to create a rippling effect.</p>
+		<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
+			<img src="images/ripple.png" alt="Ripple Shader" style="width: 100%;">
+			<figcaption>Ripple Shader</figcaption>
+		</div>
+
+		<h3>Other Textures</h3>
+		Using the bubble wrap texture, we experimented with creating different types of textures. The bump map creates subtle indentations that give the appearance of depth by altering the way light interacts with the surface, but the surface itself remains flat. On the other hand, the displacement map physically modifies the geometry of the surface, creating deeper and more realistic cuts that make the texture feel more three-dimensional and lifelike.
+		<div style="text-align: center; margin-bottom: 20px;">
+			<img src="images/bump_bubble_wrap.png" alt="Bump Bubble Wrap" style="width: 100%; max-width: 500px;">
+			<figcaption>Bump Bubble Wrap</figcaption>
+		</div>
+		<div style="text-align: center; margin-bottom: 20px;">
+			<img src="images/displacement_bubble_wrap.png" alt="Displacement Bubble Wrap" style="width: 100%; max-width: 500px;">
+			<figcaption>Displacement Bubble Wrap</figcaption>
+		</div>
+		<div style="text-align: center; margin-bottom: 20px;">
+			<img src="images/texture_6.png" alt="Texture File 6" style="width: 100%; max-width: 300px;">
+			<figcaption>Texture File</figcaption>
+		</div>
+
+
+		<h3>
+			Differences in coarseness of rendering.
+		</h3>
+		<br>
+		<p>There is no visual difference in the difference of rendering for the cloth and sphere. We can see this in the following images as we compare the surface of both bump and displacement and there is no obvious difference between the two.</p> 
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/16 bump.png" alt="16px Bump" style="width: 100%; max-width: 300px;">
+				<figcaption>16px Bump</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/128 bump.png" alt="128px Bump" style="width: 100%; max-width: 300px;">
+				<figcaption>128px Bump</figcaption>
+			</div>
+		</div>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/16 displacement.png" alt="16px Displacement" style="width: 100%; max-width: 300px;">
+				<figcaption>16px Displacement</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/128 displacement.png" alt="128px Displacement" style="width: 100%; max-width: 300px;">
+				<figcaption>128px Displacement</figcaption>
+			</div>
+		</div>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/16 closeup.png" alt="16px Closeup" style="width: 100%; max-width: 300px;">
+				<figcaption>16px Closeup</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/128 closeup.png" alt="128px Closeup" style="width: 100%; max-width: 300px;">
+				<figcaption>128px Closeup</figcaption>
+			</div>
+		</div>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/16 closeup2.png" alt="16px Closeup 2" style="width: 100%; max-width: 300px;">
+				<figcaption>16px Closeup 2</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/128 closeup2.png" alt="128px Closeup 2" style="width: 100%; max-width: 300px;">
+				<figcaption>128px Closeup 2</figcaption>
+			</div>
+		</div>
+
+		<p>
+		However, the main difference appears after you wait for around 5 minutes and the cloth continues to move since there is not enough friction. 
+		There is a tiny difference in the coarseness and therefore the friction differs. 
+		Therefore, after a long time period we can see the rendering with lower resolution slips off a tiny bit faster even though is no visual difference. 
+		Take a look at the screenshots below of our textures above that were started playing at around 0.1secs apart.
+	</p>
+
+		<div style="text-align: center; margin-bottom: 20px;">
+			<img src="images/comparison.png" alt="Comparison Image" style="width: 100%; max-width: 500px;">
+			<figcaption>Comparison Image</figcaption>
+		</div>
+		<h3>
+			Mirror Sphere
+		</h3>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/mirror1.png" alt="Sphere with Mirror Texture" style="width: 100%; max-width: 300px;">
+				<figcaption>Sphere with Mirror Texture</figcaption>
+			</div>
+			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
+				<img src="images/mirror2.png" alt="Cloth with Mirror Texture" style="width: 100%; max-width: 300px;">
+				<figcaption>Cloth with Mirror Texture</figcaption>
+			</div>
+		</div>
+		<h2> Part 6: Extra Credit - Additional cloth simulation features!</h2>
+		<p>
+			We created a rippling mesh. To simulate dynamic surface detail on the mesh, I implemented a ripple-based normal perturbation technique using a height function in texture space.
+			This allows us to generate convincing normal variations procedurally, without requiring a precomputed normal map.
+		</p>
+
+  <h3>1. TBN Matrix Construction</h3>
+  <ul>
+    <li>The normal and tangent vectors are normalized from vertex shader outputs.</li>
+    <li>The bitangent is computed as the cross product of the normal and tangent to ensure orthogonality.</li>
+    <li>The resulting <code>mat3 TBN</code> transforms texture-space vectors (e.g. normal perturbations) into world space.</li>
+  </ul>
+
+  <h3>2. Ripple Gradient Estimation</h3>
+
+  <ul>
+    <li>A function <code>ripple_height()</code> returns a scalar height value based on UV coordinates.</li>
+    <li>To compute the perturbed normal:
+      <ul>
+        <li>Sample the height at the current UV (center) and at two positions in the U and V directions.</li>
+        <li>Subtracting the center height gives finite difference approximations of the partial derivatives in U and V.</li>
+        <li>The texture-space gradient <code>(-dU, -dV, 1)</code> is transformed into world space using the TBN matrix and normalized to form the final <code>ripple_normal</code>.</li>
+      </ul>
+    </li>
+  </ul>
+
+		<div style="text-align: center; margin-bottom: 20px;">
+			<figure style="display: inline-block; text-align: center;">
+				<img src="images/ripple.png" alt="Ripple Effect" style="width: 100%; max-width: 500px;">
+				<figcaption>Ripple Effect Visualization</figcaption>
+			</figure>
+		</div>
+
+    <p>Finally the lighting is computed using a standard Blinn-Phong reflection model.</p>
 	</body>
 </html>

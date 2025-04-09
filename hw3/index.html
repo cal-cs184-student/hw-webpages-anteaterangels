@@ -231,74 +231,52 @@
 			Below are some light sampling images rendered with different numbers of rays sampled.
 		</p>
 		<h4>Light Ray Sample Comparison</h4>
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-				<tr>
-					<td>
-						<figure>
-							<img src="images/bunny_l1.png" width="400px" alt="Light sampling 1 ray"/>
-							<figcaption>Light sampling with 1 Ray</figcaption>
-						</figure>
-					</td>
-					<td>
-						<figure>
-							<img src="images/bunny_l4.png" width="400px" alt="Light sampling 4 rays"/>
-							<figcaption>Light sampling with 4 Rays</figcaption>
-						</figure>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<figure>
-							<img src="images/bunny_l16.png" width="400px" alt="Light sampling 16 rays"/>
-							<figcaption>Light sampling with 16 Rays</figcaption>
-						</figure>
-					</td>
-					<td>
-						<figure>
-							<img src="images/bunny_l64.png" width="400px" alt="Light sampling 64 rays"/>
-							<figcaption>Light sampling with 64 Rays</figcaption>
-						</figure>
-					</td>
-				</tr>
-			</table>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny_l1.png" alt="bunny l1" style="width:100%"/>
+				<figcaption>Light sampling with 1 Ray</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny_l4.png" alt="indirect illuminance" style="width:100%"/>
+				<figcaption>Light sampling with 4 Rays</figcaption>
+			</figure>
+		</div>
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny_l16.png" alt="light sampling 16" style="width:100%"/>
+				<figcaption>Light sampling with 16 Rays</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/bunny_l64.png" alt="light sampling 64" style="width:100%"/>
+				<figcaption>Light sampling with 64 Rays</figcaption>
+			</figure>
+		</div>
+			
 		<b>Progressive Improvement:</b> As light ray count increases from 1 to 64, shadows become progressively smoother, with most improvement visible between 1-16 samples.
 
 		<div class="comparison-section">
 			<h3>Comparing Sampling Methods</h3>
-			<div class="image-grid">
-				<table style="width: 100%; text-align: center; border-collapse: collapse;">
-					<tr>
-						<td>
-							<figure>
-								<img src="images/task3bunnyhighres.png" width="400px" alt="Uniform Hemisphere High Res"/>
-								<figcaption>Uniform Hemisphere Sampling Bunny</figcaption>
-							</figure>
-						</td>
-						<td>
-							<figure>
-								<img src="images/task4bunnyhighres.png" width="400px" alt="Light Importance High Res"/>
-								<figcaption>Light Importance Sampling Bunny</figcaption>
-							</figure>
-						</td>
-					</tr>
-				</table>
-				<table style="width: 100%; text-align: center; border-collapse: collapse;">
-					<tr>
-						<td>
-							<figure>
-								<img src="images/CBlambertian_H_64_32.png" width="400px" alt="Uniform Hemisphere Spheres"/>
-								<figcaption>Uniform Hemisphere Sampling Spheres</figcaption>
-							</figure>
-						</td>
-						<td>
-							<figure>
-								<img src="images/CBlambertian_64_32.png" width="400px" alt="Light Importance Spheres"/>
-								<figcaption>Light Importance Sampling Spheres</figcaption>
-							</figure>
-						</td>
-					</tr>
-				</table>
+			<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/task3bunnyhighres.png" alt="task 3 bunny high res" style="width:100%"/>
+					<figcaption>Uniform Hemisphere Sampling Bunny</figcaption>
+				</figure>
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/task4bunnyhighres.png" alt="task 4 bunny high res" style="width:100%"/>
+					<figcaption>Light Importance Sampling Bunny</figcaption>
+				</figure>
 			</div>
+			<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/CBlambertian_H_64_32.png" alt="uniform hemisphere spheres" style="width:100%"/>
+					<figcaption>Uniform Hemisphere Sampling with Spheres</figcaption>
+				</figure>
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/CBlambertian_64_32.png" alt="light importance spheres" style="width:100%"/>
+					<figcaption>Light Importance Sampling with Spheres</figcaption>
+				</figure>
+			</div>
+			
 			
 
 			<h3>Analysis</h3>
@@ -490,7 +468,7 @@
 			</figure>
 			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
 				<img src="images/CBbunny_m100_roulette.png" alt="accum 5" style="width:100%"/>
-				<figcaption>m = 5</figcaption>
+				<figcaption>m = 100</figcaption>
 			</figure>
 		</div>
 
