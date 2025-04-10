@@ -212,7 +212,7 @@
 			<li>Once we know there has been an intersection, we then can get the tangent vector by finding the distance of the intersection from the last position. To find this value,
 				we divide the dot product of the last position with the difference of the last position dot product and the current position dot products that we had computed previously. By doing so, this lets us know 
 				the distance of the last position to the current intersection point that we have found. Using this value, we can use the last position, this double value, and the distance of the position to the last position
-				to find the tangent point. Afterwards, getting the correction vector becomes easy: we compute the difference of the tangent to the point mass's last position plus the plane's normal and scaled by the SURFACE_OFFSET of the plane.
+				to find the tangent point scaled by the SURFACE_OFFSET of the plane. Afterwards, getting the correction vector becomes easy: we compute the difference of the tangent to the point mass's last position plus the plane's normal.
 			</li>
 			<li>After this, we use this correction vector to add the point mass's last position to the correction and scaling it down by (1 - friction), similar to the process with sphere collisions.</li>
 		  </ol>
@@ -272,30 +272,43 @@
 		<h3>Varying Density</h3>
 		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
-				<video controls style="width: 100%; max-width: 300px;">
-					<source src="images/low.mp4" type="video/mp4">
-				</video>
-				<figcaption>Low Density 20g/m^3</figcaption>
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/collisions1.5.png" alt="selfcollisions1.5" style="width:100%"/>
+					<figcaption>Low Density 1.5g/m^3</figcaption>
+				</figure>
 			</div>
 			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
-				<video controls style="width: 100%; max-width: 300px;">
-					<source src="images/medium.mp4" type="video/mp4">
-				</video>
-				<figcaption>Medium Density 30g/m^3</figcaption>
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/collisions15.png" alt="selfcollisions15" style="width:100%"/>
+					<figcaption>Medium Density 15g/m^3</figcaption>
+				</figure>
 			</div>
 			<div style="text-align: center; flex: 1 1 calc(33.333% - 10px);">
-				<video controls style="width: 100%; max-width: 300px;">
-					<source src="images/high.mp4" type="video/mp4">
-				</video>
-				<figcaption>High Density 35g/m^3</figcaption>
+				<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+					<img src="images/collisions150.png" alt="selfcollisions150" style="width:100%"/>
+					<figcaption>High Density 150g/m^3</figcaption>
+				</figure>
 			</div>
 		</div>
-		As the density of the cloth increases, its weight also increases, causing it to fall more rapidly and compress upon itself. For example, when comparing densities like 20g/m³ and 30g/m³, the heavier cloth (30g/m³) collapses more quickly and with greater force. However, as the density continues to rise, the cloth becomes so heavy that it no longer interacts properly with the plane—it starts to pass through it entirely. This phenomenon becomes even more pronounced at higher densities, such as 40g/m³ or 50g/m³, where the cloth's weight overwhelms the simulation's ability to handle the collision accurately. 
-
+		As the density of the cloth increases, the more creases that it tends to have on itself and the less airy, bouncy and light it seems. 
+		This seems to do with the comparison on the internal tension and springs versus the gravity upon each point mass. We can observe that from left to right there are more creases and less smooth areas when increasing the cloths' density
 		<h3>Varying ks</h3>
-		<video controls style="width: 100%; ">
-			<source src="images/ks.mp4" type="video/mp4">
-		</video>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/collisions_ks500.png" alt="ks500" style="width:100%"/>
+				<figcaption>ks = 500</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/collisions_ks5000.png" alt="ks5000" style="width:100%"/>
+				<figcaption>ks = 5000</figcaption>
+			</figure>
+			<figure style="text-align: center; flex: 1 1 30%; margin: 10px;">
+				<img src="images/collisions_ks50000.png" alt="ks50000" style="width:100%"/>
+				<figcaption>ks = 50000</figcaption>
+			</figure>
+		</div>
+
 		<br>
 		As the ks value of the point masses increases, the cloth exhibits more elasticity, appearing bouncier and more jelly-like. 
 		This also prevents the cloth from falling through objects in the simulation. However, we observe that beyond a certain point, increasing the ks value further does not significantly change the behavior of the cloth. 
@@ -305,7 +318,7 @@
 		<br>
 		<b>Shaders</b>
 		<p>
-		A shader program typically consists of two main parts:
+		A shader program is a program that is used to calculate the color of each pixel in a 3D object. It typically consists of two main parts:
 		<ul>
 			<li>
 				1. Vertex Shader: This processes each vertex of a 3D object. It determines the position of the vertex on the screen and can also calculate properties like normals (used for lighting) or texture coordinates. The vertex shader is responsible for transforming 3D coordinates into 2D screen space and passing data to the next stage.
@@ -340,7 +353,7 @@
 		
 		This makes the calculation faster and still produces realistic highlights.
 
-		By combining these three components (ambient, diffuse, and specular), the Blinn-Phong model creates a balanced and visually appealing lighting effect for 3D objects. It’s widely used because it’s simple and efficient while still looking good.</p>
+		By combining these three components (ambient, diffuse, and specular), the Blinn-Phong model creates a balanced and visually appealing lighting effect for 3D objects. It's widely used because it's simple and efficient while still looking good.</p>
 		
 		Here are some images that show the different components.
 		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
@@ -451,12 +464,12 @@
 		</h3>
 		<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
-				<img src="images/mirror1.png" alt="Sphere with Mirror Texture" style="width: 100%; max-width: 300px;">
-				<figcaption>Sphere with Mirror Texture</figcaption>
+				<img src="images/Mirror2.png" alt="Sphere with Mirror Texture" style="width: 100%; max-width: 300px;">
+				<figcaption>Sphere before cloth lands</figcaption>
 			</div>
 			<div style="text-align: center; flex: 1 1 calc(50% - 10px);">
-				<img src="images/mirror2.png" alt="Cloth with Mirror Texture" style="width: 100%; max-width: 300px;">
-				<figcaption>Cloth with Mirror Texture</figcaption>
+				<img src="images/Mirror1.png" alt="Cloth with Mirror Texture" style="width: 100%; max-width: 300px;">
+				<figcaption>Sphere after cloth lands</figcaption>
 			</div>
 		</div>
 		<h2> Part 6: Extra Credit - Additional cloth simulation features!</h2>
